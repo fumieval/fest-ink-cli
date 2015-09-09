@@ -1,3 +1,5 @@
+[イカフェスレート](https://fest.ink)のAPIを利用し、コマンドラインでSplatoonの[フェス](http://www.nintendo.co.jp/wiiu/agmj/festival/)に関する情報を取得する。
+
 インストール
 ----
 
@@ -31,3 +33,8 @@ $ fest-ink.exe 4
 キリギリス      0.52
 アリ            0.48
 ```
+
+リンク
+----
+
+* [イカフェスレート | API](https://fest.ink/api)
