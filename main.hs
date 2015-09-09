@@ -28,24 +28,29 @@ main = do
           | otherwise -> " " ++ show i ++ " "
         putStr "\t"
         putStrLn $ f ^. key "name" . _String . unpacked
+
     [i] -> do
       val <- fetch $ "https://fest.ink/" ++ i ++ ".json"
-      let nameA = val ^?! key "teams" . key "alpha" . key "name" . _String . unpacked
-          nameH = val ^?! key "teams" . key "bravo" . key "name" . _String . unpacked
+      let getName cls = val ^?! key "teams" . key cls . key "name" . _String . unpacked
+          nameA = getName "alpha"
+          nameH = getName "bravo"
+          victories cls v = Sum $ v ^?! key cls . _Integer
           (Sum va, Sum vh) = foldMapOf (key "wins" . _Array . traverse)
-              (\v -> (Sum $ v ^?! key "alpha" . _Integer, Sum $ v ^?! key "bravo" . _Integer)) val
-      let vs = fromIntegral (va + vh)
+              ((,) <$> victories "alpha" <*> victories "bravo") val
+          vs = fromIntegral (va + vh)
 
-      putStr nameA
-      putStr $ replicate (16 - length nameA * 2) ' '
+      putStrPadding nameA
       printf "%.02f\n" (fromIntegral va / vs :: Float)
 
-      putStr nameH
-      putStr $ replicate (16 - length nameH * 2) ' '
+      putStrPadding nameH
       printf "%.02f\n" (fromIntegral vh / vs :: Float)
     _ -> putStrLn "Usage: fest-ink index | fest-ink <ordinal>"
 
   where
+    putStrPadding s = do
+      putStr s
+      putStr $ replicate (16 - length s * 2) ' '
+
     fetch url = do
       man <- newManager tlsManagerSettings
       req <- parseUrl url
