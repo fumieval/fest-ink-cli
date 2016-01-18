@@ -1,5 +1,5 @@
 name:                fest-ink-cli
-version:             0.1.0.0
+version:             0.2.0.0
 synopsis:            Command-line interface to fest.ink
 description:         Please see README.md
 homepage:            http://github.com/fumieval/fest-ink-cli
@@ -15,8 +15,8 @@ cabal-version:       >=1.10
 
 executable fest-ink
   main-is:             main.hs
-  ghc-options:         -threaded
-  build-depends:       base, conduit, resourcet, attoparsec, http-conduit, aeson, lens, lens-aeson, conduit-extra, time
+  ghc-options:         -threaded -Wall
+  build-depends:       base, bytestring, conduit, exceptions, resourcet, attoparsec, http-conduit, aeson, lens, lens-aeson, conduit-extra, time, text, http-types
   default-language:    Haskell2010
 
 source-repository head
